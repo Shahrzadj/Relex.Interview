@@ -13,6 +13,7 @@ namespace Relex.Interview.Entities
         public string Code { get; set; }
         public int Size { get; set; }
         public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
     public class BatchSizeConfiguration : IEntityTypeConfiguration<BatchSize>
     {

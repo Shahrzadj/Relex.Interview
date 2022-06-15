@@ -9,10 +9,11 @@ namespace Relex.Interview.Entities
         public string Name { get; set; }
         public decimal Price { get; set; }
         public virtual ICollection<BatchSize> BatchSizes { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
     }
 
-    public class ProductsConfiguration : IEntityTypeConfiguration<Product>
+    public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
