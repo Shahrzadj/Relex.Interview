@@ -3,16 +3,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Relex.Interview.Entities
 {
-    public class Products:BaseEntity
+    public class Product:BaseEntity
     {
         public string Code { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public virtual ICollection<BatchSize> BatchSizes { get; set; }
+
     }
 
-    public class ProductsConfiguration : IEntityTypeConfiguration<Products>
+    public class ProductsConfiguration : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Products> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Code).IsRequired();
