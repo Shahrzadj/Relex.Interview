@@ -33,5 +33,33 @@ namespace Relex.Interview.Api.Controllers
             var result = _mapper.Map<BatchDto>(batch);
             return result;
         }
+
+        [HttpPost]
+        public async Task<Batch> Create([FromBody] CreateBatchDto dto, CancellationToken cancellationToken)
+        {
+            var batch = _mapper.Map<Batch>(dto);
+            await _batchRepository.AddAsync(batch, cancellationToken).ConfigureAwait(false);
+            await _batchRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return batch;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<Batch> Delete(int id, CancellationToken cancellationToken)
+        {
+            var batch = await _batchRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
+            await _batchRepository.DeleteAsync(batch, cancellationToken).ConfigureAwait(false);
+            await _batchRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return batch;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<Batch> Update(int id, [FromBody] EditBatchDto dto, CancellationToken cancellationToken)
+        {
+            var batch = await _batchRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
+            var updatedBatch = _mapper.Map(dto, batch);
+            await _batchRepository.UpdateAsync(updatedBatch, cancellationToken).ConfigureAwait(false);
+            await _batchRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return updatedBatch;
+        }
     }
 }
