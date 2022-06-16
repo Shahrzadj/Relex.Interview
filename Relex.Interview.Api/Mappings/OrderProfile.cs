@@ -9,6 +9,8 @@ namespace Relex.Interview.Api.Mappings
         public OrderProfile()
         {
             CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<Order, CreateOrderDto>().ReverseMap();
+            CreateMap<Order, EditOrderDto>().ReverseMap();
         }
     }
 }

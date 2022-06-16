@@ -11,10 +11,12 @@ namespace Relex.Interview.Api.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<ProductBatch> _productBatchRepository;
         private readonly IMapper _mapper;
-        public OrdersController(IRepository<Order> orderRepository, IMapper mapper)
+        public OrdersController(IRepository<Order> orderRepository, IRepository<ProductBatch> productBatchRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _productBatchRepository = productBatchRepository;
             _mapper = mapper;
         }
 
@@ -32,6 +34,40 @@ namespace Relex.Interview.Api.Controllers
             var order = await _orderRepository.GetByIdAsync(id, CancellationToken.None).ConfigureAwait(false);
             var result = _mapper.Map<OrderDto>(order);
             return result;
+        }
+
+        [HttpPost]
+        public async Task<Order> Create([FromBody] CreateOrderDto dto, CancellationToken cancellationToken)
+        {
+            var order = _mapper.Map<Order>(dto);
+            var productBatches = _productBatchRepository.TableNoTracking
+                .Where(x => x.ProductId == dto.ProductId)
+                .OrderBy(x =>x.Batch.Size)
+                .Select(x => x.Batch.Id)
+                .ToList();
+            order.BatchId = dto.IsBatchMaxSize ? productBatches.Last() : productBatches.First();
+            await _orderRepository.AddAsync(order, cancellationToken).ConfigureAwait(false);
+            await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return order;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<Order> Delete(int id, CancellationToken cancellationToken)
+        {
+            var order = await _orderRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
+            await _orderRepository.DeleteAsync(order, cancellationToken).ConfigureAwait(false);
+            await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return order;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<Order> Update(int id, [FromBody] EditOrderDto dto, CancellationToken cancellationToken)
+        {
+            var order = await _orderRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
+            var updatedOrder = _mapper.Map(dto, order);
+            await _orderRepository.UpdateAsync(updatedOrder, cancellationToken).ConfigureAwait(false);
+            await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return updatedOrder;
         }
     }
 }

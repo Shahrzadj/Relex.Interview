@@ -21,7 +21,7 @@ namespace Relex.Interview.Data.Repositories
 
         public virtual async Task<TEntity> GetByIdAsync(int id,CancellationToken cancellationToken)
         {
-            return await Entities.FindAsync(id,cancellationToken);
+            return await Entities.FindAsync(id);
         }
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
         {

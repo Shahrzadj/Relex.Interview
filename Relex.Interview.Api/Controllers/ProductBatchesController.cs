@@ -30,27 +30,27 @@ namespace Relex.Interview.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ProductBatchDto> Get(int id)
         {
-            var product = await _productBatchRepository.GetByIdAsync(id, CancellationToken.None).ConfigureAwait(false);
-            var result = _mapper.Map<ProductBatchDto>(product);
+            var productBatch = await _productBatchRepository.GetByIdAsync(id, CancellationToken.None).ConfigureAwait(false);
+            var result = _mapper.Map<ProductBatchDto>(productBatch);
             return result;
         }
 
         [HttpPost]
         public async Task<ProductBatch> Create([FromBody] CreateProductBatchDto dto, CancellationToken cancellationToken)
         {
-            var product = _mapper.Map<ProductBatch>(dto);
-            await _productBatchRepository.AddAsync(product, cancellationToken).ConfigureAwait(false);
+            var productBatch = _mapper.Map<ProductBatch>(dto);
+            await _productBatchRepository.AddAsync(productBatch, cancellationToken).ConfigureAwait(false);
             await _productBatchRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            return product;
+            return productBatch;
         }
 
         [HttpDelete("{id}")]
         public async Task<ProductBatch> Delete(int id, CancellationToken cancellationToken)
         {
-            var product = await _productBatchRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
-            await _productBatchRepository.DeleteAsync(product, cancellationToken).ConfigureAwait(false);
+            var productBatch = await _productBatchRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
+            await _productBatchRepository.DeleteAsync(productBatch, cancellationToken).ConfigureAwait(false);
             await _productBatchRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            return product;
+            return productBatch;
         }
 
         [HttpPut("{id}")]
