@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json.Serialization;
 
 namespace Relex.Interview.Entities
 {
@@ -8,9 +9,10 @@ namespace Relex.Interview.Entities
         public string Code { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public virtual ICollection<BatchSize> BatchSizes { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Batch> Batches { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
-
     }
 
     public class ProductConfiguration : IEntityTypeConfiguration<Product>

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Relex.Interview.Data.Repositories
 {
-    public class BatchSizeRepository : Repository<BatchSize>
+    public class BatchRepository : Repository<Batch>
     {
-        public BatchSizeRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public BatchRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
     }

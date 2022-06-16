@@ -16,8 +16,8 @@ namespace Relex.Interview.Entities
         public int ProductId { get; set; }
         public Product Product { get; set; }
 
-        public int BatchSizeId { get; set; }
-        public BatchSize BatchSize { get; set; }
+        public int BatchId { get; set; }
+        public Batch Batch { get; set; }
     }
 
     public class OrderConfiguration : IEntityTypeConfiguration<Order>
@@ -27,7 +27,9 @@ namespace Relex.Interview.Entities
             builder.HasKey(p => p.Id);
             builder.Property(p => p.NumberOfBatches).IsRequired();
             builder.HasOne(p => p.Product).WithMany(p => p.Orders).HasForeignKey(f => f.ProductId);
-            builder.HasOne(p => p.BatchSize).WithMany(p => p.Orders).HasForeignKey(f => f.BatchSizeId);
+            builder.HasOne(p => p.Batch).WithMany(p => p.Orders).HasForeignKey(f => f.BatchId);
+            builder.Navigation(p => p.Product).AutoInclude();
+            builder.Navigation(p => p.Batch).AutoInclude();
         }
     }
 }

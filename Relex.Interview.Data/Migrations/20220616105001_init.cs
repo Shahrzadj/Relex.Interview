@@ -4,12 +4,12 @@
 
 namespace Relex.Interview.Data.Migrations
 {
-    public partial class AddTables : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BatchSize",
+                name: "Batch",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,7 +19,7 @@ namespace Relex.Interview.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BatchSize", x => x.Id);
+                    table.PrimaryKey("PK_Batch", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,23 +38,23 @@ namespace Relex.Interview.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BatchSizeProduct",
+                name: "BatchProduct",
                 columns: table => new
                 {
-                    BatchSizesId = table.Column<int>(type: "int", nullable: false),
+                    BatchesId = table.Column<int>(type: "int", nullable: false),
                     ProductsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BatchSizeProduct", x => new { x.BatchSizesId, x.ProductsId });
+                    table.PrimaryKey("PK_BatchProduct", x => new { x.BatchesId, x.ProductsId });
                     table.ForeignKey(
-                        name: "FK_BatchSizeProduct_BatchSize_BatchSizesId",
-                        column: x => x.BatchSizesId,
-                        principalTable: "BatchSize",
+                        name: "FK_BatchProduct_Batch_BatchesId",
+                        column: x => x.BatchesId,
+                        principalTable: "Batch",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BatchSizeProduct_Product_ProductsId",
+                        name: "FK_BatchProduct_Product_ProductsId",
                         column: x => x.ProductsId,
                         principalTable: "Product",
                         principalColumn: "Id",
@@ -69,15 +69,15 @@ namespace Relex.Interview.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NumberOfBatches = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    BatchSizeId = table.Column<int>(type: "int", nullable: false)
+                    BatchId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_BatchSize_BatchSizeId",
-                        column: x => x.BatchSizeId,
-                        principalTable: "BatchSize",
+                        name: "FK_Order_Batch_BatchId",
+                        column: x => x.BatchId,
+                        principalTable: "Batch",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -89,14 +89,14 @@ namespace Relex.Interview.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BatchSizeProduct_ProductsId",
-                table: "BatchSizeProduct",
+                name: "IX_BatchProduct_ProductsId",
+                table: "BatchProduct",
                 column: "ProductsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_BatchSizeId",
+                name: "IX_Order_BatchId",
                 table: "Order",
-                column: "BatchSizeId");
+                column: "BatchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ProductId",
@@ -107,13 +107,13 @@ namespace Relex.Interview.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BatchSizeProduct");
+                name: "BatchProduct");
 
             migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
-                name: "BatchSize");
+                name: "Batch");
 
             migrationBuilder.DropTable(
                 name: "Product");

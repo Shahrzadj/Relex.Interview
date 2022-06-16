@@ -11,8 +11,8 @@ using Relex.Interview.Data;
 namespace Relex.Interview.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220616085456_AddTables")]
-    partial class AddTables
+    [Migration("20220616105001_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,22 +23,22 @@ namespace Relex.Interview.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BatchSizeProduct", b =>
+            modelBuilder.Entity("BatchProduct", b =>
                 {
-                    b.Property<int>("BatchSizesId")
+                    b.Property<int>("BatchesId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
-                    b.HasKey("BatchSizesId", "ProductsId");
+                    b.HasKey("BatchesId", "ProductsId");
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("BatchSizeProduct");
+                    b.ToTable("BatchProduct");
                 });
 
-            modelBuilder.Entity("Relex.Interview.Entities.BatchSize", b =>
+            modelBuilder.Entity("Relex.Interview.Entities.Batch", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace Relex.Interview.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BatchSize");
+                    b.ToTable("Batch");
                 });
 
             modelBuilder.Entity("Relex.Interview.Entities.Order", b =>
@@ -66,7 +66,7 @@ namespace Relex.Interview.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BatchSizeId")
+                    b.Property<int>("BatchId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfBatches")
@@ -77,7 +77,7 @@ namespace Relex.Interview.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BatchSizeId");
+                    b.HasIndex("BatchId");
 
                     b.HasIndex("ProductId");
 
@@ -108,11 +108,11 @@ namespace Relex.Interview.Data.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("BatchSizeProduct", b =>
+            modelBuilder.Entity("BatchProduct", b =>
                 {
-                    b.HasOne("Relex.Interview.Entities.BatchSize", null)
+                    b.HasOne("Relex.Interview.Entities.Batch", null)
                         .WithMany()
-                        .HasForeignKey("BatchSizesId")
+                        .HasForeignKey("BatchesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -125,9 +125,9 @@ namespace Relex.Interview.Data.Migrations
 
             modelBuilder.Entity("Relex.Interview.Entities.Order", b =>
                 {
-                    b.HasOne("Relex.Interview.Entities.BatchSize", "BatchSize")
+                    b.HasOne("Relex.Interview.Entities.Batch", "Batch")
                         .WithMany("Orders")
-                        .HasForeignKey("BatchSizeId")
+                        .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -137,12 +137,12 @@ namespace Relex.Interview.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BatchSize");
+                    b.Navigation("Batch");
 
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Relex.Interview.Entities.BatchSize", b =>
+            modelBuilder.Entity("Relex.Interview.Entities.Batch", b =>
                 {
                     b.Navigation("Orders");
                 });

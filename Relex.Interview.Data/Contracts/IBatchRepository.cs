@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Relex.Interview.Data.Contracts
 {
-    public interface IBatchSizeRepository:IRepository<BatchSize>
+    public interface IBatchRepository:IRepository<Batch>
     {
     }
 }
