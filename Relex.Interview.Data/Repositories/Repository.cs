@@ -19,11 +19,18 @@ namespace Relex.Interview.Data.Repositories
             Entities = DbContext.Set<TEntity>();
         }
 
-        public virtual Task<TEntity> GetByIdAsync(int id,CancellationToken cancellationToken)
+        public virtual async Task<TEntity> GetByIdAsync(int id,CancellationToken cancellationToken)
         {
-            return Entities.SingleOrDefaultAsync(i => i.Id == id,cancellationToken);
+            return await Entities.SingleOrDefaultAsync(i => i.Id == id,cancellationToken);
         }
-
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            return await Entities.ToListAsync();
+        }
+        public virtual  IEnumerable<TEntity> GetAll()
+        {
+            return  Entities.ToList();
+        }
         public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
         {
             Assert.NotNull(entity, nameof(entity));
