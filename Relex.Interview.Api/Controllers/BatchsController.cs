@@ -29,7 +29,7 @@ namespace Relex.Interview.Api.Controllers
         [HttpGet("{id}")]
         public async Task<BatchDto> Get(int id, CancellationToken cancellationToken)
         {
-            var batch = await _batchRepository.GetByIdAsync(1, cancellationToken).ConfigureAwait(false);
+            var batch = await _batchRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
             var result = _mapper.Map<BatchDto>(batch);
             return result;
         }

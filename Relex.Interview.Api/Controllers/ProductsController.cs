@@ -29,7 +29,7 @@ namespace Relex.Interview.Api.Controllers
         [HttpGet("{id}")]   
         public async Task<ProductDto> Get(int id)
         {
-            var product= await _productRepository.GetByIdAsync(1, CancellationToken.None).ConfigureAwait(false);
+            var product= await _productRepository.GetByIdAsync(id, CancellationToken.None).ConfigureAwait(false);
             var result = _mapper.Map<ProductDto>(product);
             return result;
         }

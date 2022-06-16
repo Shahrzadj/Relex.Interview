@@ -33,6 +33,8 @@ namespace Relex.Interview.Entities
                 .WithMany(t => t.BatchProducts)
                 .HasForeignKey(pt => pt.BatchId);
 
+            builder.Navigation(p => p.Product).AutoInclude();
+            builder.Navigation(p => p.Batch).AutoInclude();
         }
     }
 }
