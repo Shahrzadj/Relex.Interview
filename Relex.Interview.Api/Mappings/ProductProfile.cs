@@ -9,6 +9,7 @@ namespace Relex.Interview.Api.Mappings
         public ProductProfile()
         {
             CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Product, CreateProductDto>().ReverseMap(); 
         }
     }
 }

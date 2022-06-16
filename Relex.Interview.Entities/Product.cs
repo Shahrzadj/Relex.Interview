@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Relex.Interview.Entities
 {
-    public class Product:BaseEntity
+    public class Product: BaseEntity
     {
         public string Code { get; set; }
         public string Name { get; set; }

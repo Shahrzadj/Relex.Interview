@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Relex.Interview.Api.Dtos.Product;
 using Relex.Interview.Data.Contracts;
