@@ -19,9 +19,9 @@ namespace Relex.Interview.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<OrderDto>> Get()
+        public async Task<IEnumerable<OrderDto>> Get(CancellationToken cancellationToken)
         {
-            var orders = await _orderRepository.GetAllAsync().ConfigureAwait(false);
+            var orders = await _orderRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
             var result = _mapper.Map<IEnumerable<OrderDto>>(orders);
             return result;
         }

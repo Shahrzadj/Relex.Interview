@@ -23,9 +23,9 @@ namespace Relex.Interview.Data.Repositories
         {
             return await Entities.SingleOrDefaultAsync(i => i.Id == id,cancellationToken);
         }
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await Entities.ToListAsync();
+            return await Entities.ToListAsync(cancellationToken);
         }
         public virtual  IEnumerable<TEntity> GetAll()
         {
@@ -100,6 +100,16 @@ namespace Relex.Interview.Data.Repositories
         {
             Assert.NotNull(entity, nameof(entity));
             Entities.Remove(entity);
+        }
+
+        public int SaveChanges()
+        {
+            return DbContext.SaveChanges();
+        }
+
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return DbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

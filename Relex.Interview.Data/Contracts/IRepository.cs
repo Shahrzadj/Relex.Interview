@@ -18,10 +18,13 @@ namespace Relex.Interview.Data.Contracts
         TEntity GetById(int id);
         Task<TEntity> GetByIdAsync(int id,CancellationToken cancellationToken);
         IEnumerable<TEntity> GetAll();
-        Task<IEnumerable<TEntity>> GetAllAsync();   
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);   
         void Update(TEntity entity);
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
         void UpdateRange(IEnumerable<TEntity> entities);
         Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
+
+        int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

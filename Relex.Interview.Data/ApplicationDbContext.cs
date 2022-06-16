@@ -26,5 +26,10 @@ namespace Relex.Interview.Data
         {
             return base.SaveChanges();
         }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return base.SaveChangesAsync(cancellationToken);
+        }
     }
 }

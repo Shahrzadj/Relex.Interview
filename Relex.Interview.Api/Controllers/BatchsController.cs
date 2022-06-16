@@ -19,17 +19,17 @@ namespace Relex.Interview.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BatchDto>> Get()
+        public async Task<IEnumerable<BatchDto>> Get(CancellationToken cancellationToken)
         {
-            var batches = await _batchRepository.GetAllAsync().ConfigureAwait(false);
+            var batches = await _batchRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
             var result = _mapper.Map<IEnumerable<BatchDto>>(batches);
             return result;
         }
 
         [HttpGet("{id}")]
-        public async Task<BatchDto> Get(int id)
+        public async Task<BatchDto> Get(int id, CancellationToken cancellationToken)
         {
-            var batch = await _batchRepository.GetByIdAsync(1, CancellationToken.None).ConfigureAwait(false);
+            var batch = await _batchRepository.GetByIdAsync(1, cancellationToken).ConfigureAwait(false);
             var result = _mapper.Map<BatchDto>(batch);
             return result;
         }
