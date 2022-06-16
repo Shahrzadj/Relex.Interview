@@ -4,15 +4,16 @@ using System.Text.Json.Serialization;
 
 namespace Relex.Interview.Entities
 {
-    public class Product: BaseEntity
+    public class Product : BaseEntity
     {
         public string Code { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Batch> Batches { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<ProductBatch> BatchProducts { get; set; }
     }
 
     public class ProductConfiguration : IEntityTypeConfiguration<Product>

@@ -11,7 +11,7 @@ using Relex.Interview.Data;
 namespace Relex.Interview.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220616105001_init")]
+    [Migration("20220616212749_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,21 +22,6 @@ namespace Relex.Interview.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("BatchProduct", b =>
-                {
-                    b.Property<int>("BatchesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BatchesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("BatchProduct");
-                });
 
             modelBuilder.Entity("Relex.Interview.Entities.Batch", b =>
                 {
@@ -108,19 +93,19 @@ namespace Relex.Interview.Data.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("BatchProduct", b =>
+            modelBuilder.Entity("Relex.Interview.Entities.ProductBatch", b =>
                 {
-                    b.HasOne("Relex.Interview.Entities.Batch", null)
-                        .WithMany()
-                        .HasForeignKey("BatchesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
-                    b.HasOne("Relex.Interview.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("BatchId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "BatchId");
+
+                    b.HasIndex("BatchId");
+
+                    b.ToTable("ProductBatch");
                 });
 
             modelBuilder.Entity("Relex.Interview.Entities.Order", b =>
@@ -142,13 +127,36 @@ namespace Relex.Interview.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Relex.Interview.Entities.ProductBatch", b =>
+                {
+                    b.HasOne("Relex.Interview.Entities.Batch", "Batch")
+                        .WithMany("BatchProducts")
+                        .HasForeignKey("BatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Relex.Interview.Entities.Product", "Product")
+                        .WithMany("BatchProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Batch");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Relex.Interview.Entities.Batch", b =>
                 {
+                    b.Navigation("BatchProducts");
+
                     b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Relex.Interview.Entities.Product", b =>
                 {
+                    b.Navigation("BatchProducts");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

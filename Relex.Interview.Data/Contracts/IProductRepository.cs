@@ -2,7 +2,7 @@
 
 namespace Relex.Interview.Data.Contracts
 {
-    public interface IProductRepository:IRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     {
     }
 }

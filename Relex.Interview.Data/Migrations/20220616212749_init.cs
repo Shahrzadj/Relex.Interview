@@ -38,30 +38,6 @@ namespace Relex.Interview.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BatchProduct",
-                columns: table => new
-                {
-                    BatchesId = table.Column<int>(type: "int", nullable: false),
-                    ProductsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BatchProduct", x => new { x.BatchesId, x.ProductsId });
-                    table.ForeignKey(
-                        name: "FK_BatchProduct_Batch_BatchesId",
-                        column: x => x.BatchesId,
-                        principalTable: "Batch",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BatchProduct_Product_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -88,10 +64,29 @@ namespace Relex.Interview.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_BatchProduct_ProductsId",
-                table: "BatchProduct",
-                column: "ProductsId");
+            migrationBuilder.CreateTable(
+                name: "ProductBatch",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    BatchId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductBatch", x => new { x.ProductId, x.BatchId });
+                    table.ForeignKey(
+                        name: "FK_ProductBatch_Batch_BatchId",
+                        column: x => x.BatchId,
+                        principalTable: "Batch",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductBatch_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_BatchId",
@@ -102,15 +97,20 @@ namespace Relex.Interview.Data.Migrations
                 name: "IX_Order_ProductId",
                 table: "Order",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductBatch_BatchId",
+                table: "ProductBatch",
+                column: "BatchId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BatchProduct");
+                name: "Order");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "ProductBatch");
 
             migrationBuilder.DropTable(
                 name: "Batch");

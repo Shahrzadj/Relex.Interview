@@ -1,12 +1,20 @@
 ﻿namespace Relex.Interview.Entities
 {
-    public interface IEntity 
+    public interface IEntity
     {
-        int Id { get; set; }
     }
 
-    public abstract class BaseEntity : IEntity
+    public interface IEntity<TKey> : IEntity
     {
-        public int Id { get; set; }
+        TKey Id { get; set; }
+    }
+
+    public abstract class BaseEntity<TKey> : IEntity<TKey>
+    {
+        public TKey Id { get; set; }
+    }
+
+    public abstract class BaseEntity : BaseEntity<int>
+    {
     }
 }

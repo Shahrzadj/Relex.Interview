@@ -16,9 +16,9 @@ namespace Relex.Interview.Data.Contracts
         void Delete(TEntity entity);
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken);
         TEntity GetById(int id);
-        Task<TEntity> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
         IEnumerable<TEntity> GetAll();
-        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);   
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
         void Update(TEntity entity);
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
         void UpdateRange(IEnumerable<TEntity> entities);
