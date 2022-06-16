@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relex.Interview.Api", "Rele
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relex.Interview.Data", "Relex.Interview.Data\Relex.Interview.Data.csproj", "{ACA64D10-9651-4CC0-BDB4-2DF324BAB6D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relex.Interview.Services", "Relex.Interview.Services\Relex.Interview.Services.csproj", "{5D120485-07CB-484C-94EE-EB7FFE5A794C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relex.Interview.Entities", "Relex.Interview.Entities\Relex.Interview.Entities.csproj", "{1E24DED5-5B13-4D0B-9731-C5030FCEBA90}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relex.Interview.Common", "Relex.Interview.Common\Relex.Interview.Common.csproj", "{6188DCBE-F0BB-40CC-866D-2EC45FE2CBB4}"
@@ -27,10 +25,6 @@ Global
 		{ACA64D10-9651-4CC0-BDB4-2DF324BAB6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACA64D10-9651-4CC0-BDB4-2DF324BAB6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACA64D10-9651-4CC0-BDB4-2DF324BAB6D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D120485-07CB-484C-94EE-EB7FFE5A794C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D120485-07CB-484C-94EE-EB7FFE5A794C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D120485-07CB-484C-94EE-EB7FFE5A794C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D120485-07CB-484C-94EE-EB7FFE5A794C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E24DED5-5B13-4D0B-9731-C5030FCEBA90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E24DED5-5B13-4D0B-9731-C5030FCEBA90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E24DED5-5B13-4D0B-9731-C5030FCEBA90}.Release|Any CPU.ActiveCfg = Release|Any CPU
