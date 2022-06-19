@@ -68,7 +68,7 @@ namespace Relex.Interview.Api.Controllers
         {
             int batchId = 0;
             var productBatches = GetOrderedBatches(dto.ProductId);
-            if (productBatches.Count > 0)
+            if (productBatches.Any())
             {
                 batchId = dto.IsBatchMaxSize ? productBatches.Last() : productBatches.First();
             }
