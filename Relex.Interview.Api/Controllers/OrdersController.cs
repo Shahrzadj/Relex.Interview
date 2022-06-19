@@ -12,15 +12,18 @@ namespace Relex.Interview.Api.Controllers
     {
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Batch> _batchRepository;
+        private readonly IRepository<Product> _productRepository;
         private readonly IProductBatchRepository _productBatchRepository;
         private readonly IMapper _mapper;
         public OrdersController(IRepository<Order> orderRepository,
             IRepository<Batch> batchRepository,
+            IRepository<Product> productRepository,
             IProductBatchRepository productBatchRepository,
             IMapper mapper)
         {
             _orderRepository = orderRepository;
             _batchRepository = batchRepository;
+            _productRepository = productRepository;
             _productBatchRepository = productBatchRepository;
             _mapper = mapper;
         }
@@ -49,6 +52,7 @@ namespace Relex.Interview.Api.Controllers
 
             await _orderRepository.AddAsync(order, cancellationToken).ConfigureAwait(false);
             await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            order.Product = _productRepository.TableNoTracking.SingleOrDefault(i => i.Id == dto.ProductId);
             return order;
         }
 
