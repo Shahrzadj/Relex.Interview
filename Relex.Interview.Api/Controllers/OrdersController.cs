@@ -52,8 +52,16 @@ namespace Relex.Interview.Api.Controllers
 
             await _orderRepository.AddAsync(order, cancellationToken).ConfigureAwait(false);
             await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            order.Product = _productRepository.TableNoTracking.SingleOrDefault(i => i.Id == dto.ProductId);
+
+            LoadRelatedData(order);
+
             return order;
+        }
+
+        private void LoadRelatedData(Order order)
+        {
+            order.Product = _productRepository.TableNoTracking.SingleOrDefault(i => i.Id == order.ProductId);
+            order.Batch = _batchRepository.TableNoTracking.SingleOrDefault(i => i.Id == order.BatchId);
         }
 
         private int PrepareBatchId(CreateOrderDto dto)
@@ -92,14 +100,14 @@ namespace Relex.Interview.Api.Controllers
             }
             else
             {
-                _batchRepository.Add(new Batch
+                var batch = new Batch
                 {
                     Code = defaultBatchCode,
                     Size = 1
-                });
+                };
+                _batchRepository.Add(batch);
                 _batchRepository.SaveChanges();
-                var newGeneratedBatch = _batchRepository.TableNoTracking.SingleOrDefault(i => i.Code.Equals(defaultBatchCode));
-                batchId = newGeneratedBatch.Id;
+                batchId = batch.Id;
             }
 
             return batchId;
