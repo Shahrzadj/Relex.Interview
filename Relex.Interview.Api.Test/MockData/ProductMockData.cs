@@ -13,7 +13,7 @@ namespace Relex.Interview.Api.Test.MockData
         public static IEnumerable<Product> GetAll()
         {
             return new List<Product> {
-                new Product { 
+                new Product {
                     Id = 1,
                     Code = "P1",
                     Name = "Milk",

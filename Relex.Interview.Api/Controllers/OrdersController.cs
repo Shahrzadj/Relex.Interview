@@ -11,11 +11,16 @@ namespace Relex.Interview.Api.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<Batch> _batchRepository;
         private readonly IProductBatchRepository _productBatchRepository;
         private readonly IMapper _mapper;
-        public OrdersController(IRepository<Order> orderRepository, IProductBatchRepository productBatchRepository, IMapper mapper)
+        public OrdersController(IRepository<Order> orderRepository,
+            IRepository<Batch> batchRepository,
+            IProductBatchRepository productBatchRepository,
+            IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _batchRepository = batchRepository;
             _productBatchRepository = productBatchRepository;
             _mapper = mapper;
         }
@@ -40,14 +45,60 @@ namespace Relex.Interview.Api.Controllers
         public async Task<Order> Create([FromBody] CreateOrderDto dto, CancellationToken cancellationToken)
         {
             var order = _mapper.Map<Order>(dto);
-            var productBatches = _productBatchRepository.GetBatchesByProductId(dto.ProductId)
-                .OrderBy(x =>x.Size)
-                .Select(x => x.Id)
-                .ToList();
-            order.BatchId = dto.IsBatchMaxSize ? productBatches.Last() : productBatches.First();
+            order.BatchId = PrepareBatchId(dto);
+
             await _orderRepository.AddAsync(order, cancellationToken).ConfigureAwait(false);
             await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             return order;
+        }
+
+        private int PrepareBatchId(CreateOrderDto dto)
+        {
+            int batchId = 0;
+            var productBatches = GetOrderedBatches(dto.ProductId);
+            if (productBatches.Count > 0)
+            {
+                batchId = dto.IsBatchMaxSize ? productBatches.Last() : productBatches.First();
+            }
+            else
+            {
+                batchId = GenerateDefaultBatchForProduct(dto);
+            }
+
+            return batchId;
+        }
+
+        private List<int> GetOrderedBatches(int productId)
+        {
+            return _productBatchRepository.GetBatchesByProductId(productId)
+                            .OrderBy(x => x.Size)
+                            .Select(x => x.Id)
+                            .ToList();
+        }
+
+        private int GenerateDefaultBatchForProduct(CreateOrderDto dto)
+        {
+            int batchId;
+            var defaultBatchCode = $"B_GENERATED_{dto.ProductId}";
+            var defaultBatch = _batchRepository.TableNoTracking.SingleOrDefault(i => i.Code.Equals(defaultBatchCode));
+            bool hasDefaultBatch = defaultBatch != null;
+            if (hasDefaultBatch)
+            {
+                batchId = defaultBatch.Id;
+            }
+            else
+            {
+                _batchRepository.Add(new Batch
+                {
+                    Code = defaultBatchCode,
+                    Size = 1
+                });
+                _batchRepository.SaveChanges();
+                var newGeneratedBatch = _batchRepository.TableNoTracking.SingleOrDefault(i => i.Code.Equals(defaultBatchCode));
+                batchId = newGeneratedBatch.Id;
+            }
+
+            return batchId;
         }
 
         [HttpDelete("{id}")]

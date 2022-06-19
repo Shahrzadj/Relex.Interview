@@ -30,5 +30,9 @@ namespace Relex.Interview.Api.Test.MockData
                 }
             };
         }
+        public static IEnumerable<Batch> GetAll_Empty()
+        {
+            return new List<Batch> { };
+        }
     }
 }
