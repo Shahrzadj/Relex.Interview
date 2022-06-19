@@ -8,13 +8,15 @@ namespace Relex.Interview.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BatchsController : ControllerBase
+    public class BatchesController : ControllerBase
     {
         private readonly IRepository<Batch> _batchRepository;
+        private readonly IProductBatchRepository _productBatchRepositoryRepository; 
         private readonly IMapper _mapper;
-        public BatchsController(IRepository<Batch> batchRepository, IMapper mapper)
+        public BatchesController(IRepository<Batch> batchRepository, IProductBatchRepository productBatchRepositoryRepository, IMapper mapper)
         {
             _batchRepository = batchRepository;
+            _productBatchRepositoryRepository = productBatchRepositoryRepository;
             _mapper = mapper;
         }
 
