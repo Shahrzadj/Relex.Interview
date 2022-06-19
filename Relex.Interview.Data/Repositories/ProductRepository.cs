@@ -1,4 +1,5 @@
-﻿using Relex.Interview.Entities;
+﻿using Relex.Interview.Data.Contracts;
+using Relex.Interview.Entities;
 
 namespace Relex.Interview.Data.Repositories
 {

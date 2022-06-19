@@ -9,5 +9,6 @@ namespace Relex.Interview.Data.Contracts
 {
     public interface IProductBatchRepository : IRepository<ProductBatch>
     {
+        IEnumerable<Batch> GetBatchesByProductId(int productId);
     }
 }

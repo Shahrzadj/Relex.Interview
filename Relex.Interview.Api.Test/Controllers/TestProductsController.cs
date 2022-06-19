@@ -42,8 +42,8 @@ namespace Relex.Interview.Api.Test.Controllers
             var result = await sut.Get(CancellationToken.None);
 
 
-            // /// Assert
-            result.Should().BeOfType<List<ProductDto>>();
+            /// Assert
+            Assert.IsType<List<ProductDto>>(result);
         }
     }
 }

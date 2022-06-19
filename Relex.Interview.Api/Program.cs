@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     ,x=>x.MigrationsAssembly("Relex.Interview.Data")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>) );
+builder.Services.AddTransient(typeof(IProductBatchRepository), typeof(ProductBatchRepository));
 
 var app = builder.Build();
 

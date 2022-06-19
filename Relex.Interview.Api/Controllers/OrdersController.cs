@@ -11,9 +11,9 @@ namespace Relex.Interview.Api.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IRepository<Order> _orderRepository;
-        private readonly IRepository<ProductBatch> _productBatchRepository;
+        private readonly IProductBatchRepository _productBatchRepository;
         private readonly IMapper _mapper;
-        public OrdersController(IRepository<Order> orderRepository, IRepository<ProductBatch> productBatchRepository, IMapper mapper)
+        public OrdersController(IRepository<Order> orderRepository, IProductBatchRepository productBatchRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _productBatchRepository = productBatchRepository;
@@ -40,10 +40,9 @@ namespace Relex.Interview.Api.Controllers
         public async Task<Order> Create([FromBody] CreateOrderDto dto, CancellationToken cancellationToken)
         {
             var order = _mapper.Map<Order>(dto);
-            var productBatches = _productBatchRepository.TableNoTracking
-                .Where(x => x.ProductId == dto.ProductId)
-                .OrderBy(x =>x.Batch.Size)
-                .Select(x => x.Batch.Id)
+            var productBatches = _productBatchRepository.GetBatchesByProductId(dto.ProductId)
+                .OrderBy(x =>x.Size)
+                .Select(x => x.Id)
                 .ToList();
             order.BatchId = dto.IsBatchMaxSize ? productBatches.Last() : productBatches.First();
             await _orderRepository.AddAsync(order, cancellationToken).ConfigureAwait(false);
