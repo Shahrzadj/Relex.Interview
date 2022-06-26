@@ -19,7 +19,7 @@ namespace Relex.Interview.Data
             var entitiesAssembly = typeof(IEntity).Assembly;
 
             modelBuilder.RegisterAllEntities<IEntity>(entitiesAssembly);
-            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);        
+            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);
         }
 
         public override int SaveChanges()

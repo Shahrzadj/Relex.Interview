@@ -48,44 +48,23 @@ namespace Relex.Interview.Api.Controllers
         public async Task<Order> Create([FromBody] CreateOrderDto dto, CancellationToken cancellationToken)
         {
             var order = _mapper.Map<Order>(dto);
-            order.BatchId = PrepareBatchId(dto);
-
+            order.BatchId = SelectBatchSizeForProduct(dto);
             await _orderRepository.AddAsync(order, cancellationToken).ConfigureAwait(false);
             await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-
             LoadRelatedData(order);
-
             return order;
         }
-
+        public int SelectBatchSizeForProduct(CreateOrderDto dto)
+        {
+            var batchId = 0;
+            var batchIdsList = _productBatchRepository.GetBatchesByProductId(dto.ProductId).Select(b=>b.Id);
+            batchId=batchIdsList.Any()? dto.IsBatchMaxSize ? batchIdsList.Max(): batchIdsList.Min() : GenerateDefaultBatchForProduct(dto);
+            return batchId;
+        }
         private void LoadRelatedData(Order order)
         {
             order.Product = _productRepository.TableNoTracking.SingleOrDefault(i => i.Id == order.ProductId);
             order.Batch = _batchRepository.TableNoTracking.SingleOrDefault(i => i.Id == order.BatchId);
-        }
-
-        private int PrepareBatchId(CreateOrderDto dto)
-        {
-            int batchId = 0;
-            var productBatches = GetOrderedBatches(dto.ProductId);
-            if (productBatches.Any())
-            {
-                batchId = dto.IsBatchMaxSize ? productBatches.Last() : productBatches.First();
-            }
-            else
-            {
-                batchId = GenerateDefaultBatchForProduct(dto);
-            }
-
-            return batchId;
-        }
-
-        private List<int> GetOrderedBatches(int productId)
-        {
-            return _productBatchRepository.GetBatchesByProductId(productId)
-                            .OrderBy(x => x.Size)
-                            .Select(x => x.Id)
-                            .ToList();
         }
 
         private int GenerateDefaultBatchForProduct(CreateOrderDto dto)

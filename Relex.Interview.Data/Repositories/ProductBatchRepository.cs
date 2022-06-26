@@ -16,7 +16,7 @@ namespace Relex.Interview.Data.Repositories
 
         public IEnumerable<Batch> GetBatchesByProductId(int productId)
         {
-            return Entities.Where(i => i.ProductId == productId).Select(i => i.Batch);
+            return TableNoTracking.Where(i => i.ProductId == productId).Select(i => i.Batch);
         }
     }
 }
