@@ -54,7 +54,7 @@ namespace Relex.Interview.Api.Controllers
             LoadRelatedData(order);
             return order;
         }
-        public int SelectBatchSizeForProduct(CreateOrderDto dto)
+        private int SelectBatchSizeForProduct(CreateOrderDto dto)
         {
             var batchId = 0;
             var batchIdsList = _productBatchRepository.GetBatchesByProductId(dto.ProductId).Select(b=>b.Id);
