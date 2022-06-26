@@ -9,6 +9,8 @@ namespace Relex.Interview.Api.Mappings
         public BatchProfile()
         {
             CreateMap<Batch, BatchDto>().ReverseMap();
+            CreateMap<Batch, CreateBatchDto>().ReverseMap();
+            CreateMap<Batch, EditBatchDto>().ReverseMap();
         }
     }
 }
