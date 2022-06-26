@@ -118,7 +118,7 @@ namespace Relex.Interview.Api.Test.Controllers
 
 
             /// Assert
-            Assert.Equal(result.Batch.Code, "B_GENERATED_1");
+            Assert.Equal(result.Batch.Code, "B_GENERATED_P1");
             Assert.Equal(result.Batch.Size, 1);
         }
     }

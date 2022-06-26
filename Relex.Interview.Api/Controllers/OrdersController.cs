@@ -51,7 +51,6 @@ namespace Relex.Interview.Api.Controllers
             order.BatchId = SelectBatchSizeForProduct(dto);
             await _orderRepository.AddAsync(order, cancellationToken).ConfigureAwait(false);
             await _orderRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            LoadRelatedData(order);
             return order;
         }
         private int SelectBatchSizeForProduct(CreateOrderDto dto)
@@ -61,16 +60,12 @@ namespace Relex.Interview.Api.Controllers
             batchId=batchIdsList.Any()? dto.IsBatchMaxSize ? batchIdsList.Max(): batchIdsList.Min() : GenerateDefaultBatchForProduct(dto);
             return batchId;
         }
-        private void LoadRelatedData(Order order)
-        {
-            order.Product = _productRepository.TableNoTracking.SingleOrDefault(i => i.Id == order.ProductId);
-            order.Batch = _batchRepository.TableNoTracking.SingleOrDefault(i => i.Id == order.BatchId);
-        }
 
         private int GenerateDefaultBatchForProduct(CreateOrderDto dto)
         {
             int batchId;
-            var defaultBatchCode = $"B_GENERATED_{dto.ProductId}";
+            var productToBeAdded = _productRepository.GetById(dto.ProductId);
+            var defaultBatchCode = $"B_GENERATED_{productToBeAdded.Code}";
             var defaultBatch = _batchRepository.TableNoTracking.SingleOrDefault(i => i.Code.Equals(defaultBatchCode));
             bool hasDefaultBatch = defaultBatch != null;
             if (hasDefaultBatch)
